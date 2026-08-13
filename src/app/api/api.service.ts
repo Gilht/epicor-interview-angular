@@ -1,11 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { User } from '../features/users/models/users.model';
 
 interface HttpOptions {
   headers?: HttpHeaders;
   params?: HttpParams;
 }
+
+
 @Injectable({ providedIn: 'root' })
 export class APIService {
   private readonly _http = inject(HttpClient);

@@ -69,3 +69,11 @@ export interface User {
   crypto: Crypto;
   role: 'admin' | 'user' | 'moderator' | string;
 }
+
+
+export interface UsersResponse {
+  users: User[];
+  total: number;
+  skip: number;
+  limit: number;
+}

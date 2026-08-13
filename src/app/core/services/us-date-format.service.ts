@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DateFormat } from './interfaces/date-format.interface';
+import { DateFormat } from '../interfaces/date-format.interface';
 
 @Injectable({
   providedIn: 'root'

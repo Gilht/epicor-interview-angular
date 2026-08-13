@@ -7,15 +7,14 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { rolesReducer } from './features/roles/store/roles.reducer';
 import { RolesEffects } from './features/roles/store/roles.effects';
-import { DateFormat } from './interfaces/date-format.interface';
-import { DateFormatService } from './date-format.service';
-import { UsDateFormatService } from './us-date-format.service';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore({ roles: rolesReducer }),
     provideEffects([RolesEffects]),
+    provideHttpClient(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),    
   ]
 };

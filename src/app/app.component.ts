@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { DateFormatService } from './date-format.service';
-import { DateFormat } from './interfaces/date-format.interface';
+import { DateFormatService } from './core/services/date-format.service';
+import { DateFormat } from './core/interfaces/date-format.interface';
 
 @Component({
   selector: 'app-root',

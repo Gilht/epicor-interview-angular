@@ -4,27 +4,24 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Role } from './models/role.model';
 import { RolesListComponent } from './components/roles-list/roles-list.component';
-import { RoleFormComponent } from './components/role-form/role-form.component';
 import * as RolesActions from './store/roles.actions';
 import { selectAllRoles, selectRolesLoading } from './store/roles.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, RolesListComponent, RoleFormComponent],
+  imports: [CommonModule, RolesListComponent],
   template: `
     <div class="roles-page">
-      <h2>Gestión de Roles</h2>
+      <h2>Roles Panel</h2>
 
-      <app-role-form
-        [editingRole]="editingRole"
-        (save)="onSave($event)"
-        (cancel)="onCancelEdit()"
-      ></app-role-form>
+      <div class="actions">
+        <button (click)="onAddRole()" class="btn btn-primary">Add Role</button>
+      </div>
 
       <app-roles-list
         [roles]="(roles$ | async) ?? []"
-        [loading]="(loading$ | async) ?? false"
         (edit)="onEdit($event)"
         (delete)="onDelete($event)"
       ></app-roles-list>
@@ -33,40 +30,31 @@ import { selectAllRoles, selectRolesLoading } from './store/roles.selectors';
   styles: `
     .roles-page { max-width: 900px; margin: 2rem auto; padding: 0 1rem; font-family: sans-serif; }
     h2 { color: #3f51b5; margin-bottom: 1.5rem; }
+    .actions { margin-bottom: 1rem; }
+    .btn { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-primary { background: #3f51b5; color: white; }
   `
 })
 export class RolesComponent implements OnInit {
   roles$: Observable<Role[]>;
-  loading$: Observable<boolean>;
-  editingRole: Role | null = null;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.roles$ = this.store.select(selectAllRoles);
-    this.loading$ = this.store.select(selectRolesLoading);
   }
 
   ngOnInit(): void {
     this.store.dispatch(RolesActions.loadRoles());
   }
 
-  onSave(role: Role): void {
-    if (this.editingRole) {
-      this.store.dispatch(RolesActions.updateRole({ role }));
-      this.editingRole = null;
-    } else {
-      this.store.dispatch(RolesActions.addRole({ role }));
-    }
+  onAddRole(): void {
+    this.router.navigate(['/roles/create']);
   }
 
   onEdit(role: Role): void {
-    this.editingRole = role;
+    this.router.navigate(['/roles/edit', role.id]);
   }
 
   onDelete(id: string): void {
     this.store.dispatch(RolesActions.deleteRole({ id }));
-  }
-
-  onCancelEdit(): void {
-    this.editingRole = null;
   }
 }

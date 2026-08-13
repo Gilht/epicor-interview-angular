@@ -1,1 +1,25 @@
-<p>users-list works!</p>
+
+    <div class="users-list">
+      <app-shared-list
+        [items]="users"
+        [columns]="['First Name','Last Name','Age','Gender','Role','Actions']"
+        [rowTemplate]="userRow"
+        [emptyMessage]="'No users found.'">
+      </app-shared-list>
+
+      <ng-template #userRow let-user>
+        <tr>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <div class="actions">
+              <button (click)="edit.emit(user)" class="btn btn-primary">Edit</button>
+              <button (click)="delete.emit(user.id)" class="btn btn-danger">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </div>

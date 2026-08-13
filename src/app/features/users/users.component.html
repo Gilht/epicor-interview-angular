@@ -1,13 +1,21 @@
-<div class="roles-page">
-  <h1>Users Panel</h1>
+<div class="container">
+  <div class="header">
+    <h2>Users Panel</h2>
 
-  <div class="actions">
-    <button class="btn btn-primary" (click)="createUser()">Create User</button>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="createUser()">Create User</button>
+    </div>
+
   </div>
 
   <div class="container">
+
+    <app-users-list
+    [users]="users()"
+    ></app-users-list>
+
   </div>
 
-  
+
   <!-- <app-users-form></app-users-form> -->
 </div>

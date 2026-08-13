@@ -11,10 +11,9 @@ import { SharedListComponent } from '../../../../shared/components/shared-list/s
     <div class="roles-list">
       <app-shared-list
         [items]="roles"
-        [loading]="loading"
-        [columns]="['Nombre','Descripción','Fecha de creación','Acciones']"
+        [columns]="['Name','Descriptions','Creation Date','Actions']"
         [rowTemplate]="roleRow"
-        [emptyMessage]="'No hay roles registrados.'">
+        [emptyMessage]="'No roles found.'">
       </app-shared-list>
 
       <ng-template #roleRow let-role>
@@ -24,8 +23,8 @@ import { SharedListComponent } from '../../../../shared/components/shared-list/s
           <td>{{ role.createdAt | date:'short' }}</td>
           <td>
             <div class="actions">
-              <button (click)="edit.emit(role)" class="btn btn-primary">Editar</button>
-              <button (click)="delete.emit(role.id)" class="btn btn-danger">Eliminar</button>
+              <button (click)="edit.emit(role)" class="btn btn-primary">Edit</button>
+              <button (click)="delete.emit(role.id)" class="btn btn-danger">Delete</button>
             </div>
           </td>
         </tr>
@@ -38,7 +37,6 @@ import { SharedListComponent } from '../../../../shared/components/shared-list/s
 })
 export class RolesListComponent {
   @Input() roles: Role[] = [];
-  @Input() loading = false;
   @Output() edit = new EventEmitter<Role>();
   @Output() delete = new EventEmitter<string>();
 }
