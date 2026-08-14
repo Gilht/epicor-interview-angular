@@ -8,9 +8,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './shared-list.component.scss',
   template: `
     <div class="shared-list">
-      <div *ngIf="loading" class="loading">Cargando...</div>
 
-      <table *ngIf="!loading">
+      <table>
         <thead>
           <tr>
             <th *ngFor="let col of columns">{{ col }}</th>
@@ -25,13 +24,13 @@ import { CommonModule } from '@angular/common';
 
           <ng-template #empty>
             <tr>
-              <td [attr.colspan]="columns?.length || 1" class="empty">{{ emptyMessage }}</td>
+              <td [attr.colspan]="columns.length || 1" class="empty">{{ emptyMessage }}</td>
             </tr>
           </ng-template>
 
           <ng-template #defaultRow let-item>
             <tr>
-              <td [attr.colspan]="columns?.length">{{ item | json }}</td>
+              <td [attr.colspan]="columns.length">{{ item | json }}</td>
             </tr>
           </ng-template>
         </tbody>
@@ -41,7 +40,6 @@ import { CommonModule } from '@angular/common';
 })
 export class SharedListComponent {
   @Input() items: any[] = [];
-  @Input() loading = false;
   @Input() columns: string[] = [];
   @Input() rowTemplate: TemplateRef<any> | null = null;
   @Input() emptyMessage = 'No hay registros.';

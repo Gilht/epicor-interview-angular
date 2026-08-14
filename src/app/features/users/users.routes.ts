@@ -1,22 +1,24 @@
 import { Route } from '@angular/router';
+import { editGuard } from '../../core/guards/edit.guard';
 
 export const usersRoutes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('../users/users.component').then((m) => m.UsersComponent),
+      import('./users.component').then((m) => m.UsersComponent),
   },
   {
     path: 'create',
     loadComponent: () =>
-      import('./pages/users-form/users-form.component').then(
+      import('./components/users-form/users-form.component').then(
         (m) => m.UsersFormComponent,
       ),
   },
   {
     path: 'edit/:id',
+    canActivate: [editGuard],
     loadComponent: () =>
-      import('./pages/users-form/users-form.component').then(
+      import('./components/users-form/users-form.component').then(
         (m) => m.UsersFormComponent,
       ),
   },

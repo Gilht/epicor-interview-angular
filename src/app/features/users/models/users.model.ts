@@ -1,3 +1,5 @@
+import { Role } from "../../roles/models/role.model";
+
 export interface Coordinates {
   lat: number;
   lng: number;
@@ -44,7 +46,7 @@ export interface User {
   firstName: string;
   lastName: string;
   maidenName: string;
-  age: number;
+  age: number | null;
   gender: 'female' | 'male' | string;
   email: string;
   phone: string;
@@ -67,5 +69,13 @@ export interface User {
   ssn: string;
   userAgent: string;
   crypto: Crypto;
-  role: 'admin' | 'user' | 'moderator' | string;
+  role: Role;
+}
+
+
+export interface UsersResponse {
+  users: User[];
+  total: number;
+  skip: number;
+  limit: number;
 }

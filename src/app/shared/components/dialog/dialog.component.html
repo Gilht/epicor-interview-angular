@@ -1,1 +1,13 @@
-<p>dialog works!</p>
+<div class="dialog-backdrop" (click)="cancel()">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" (click)="$event.stopPropagation()">
+    <div class="dialog-header">
+      <h3 id="dialog-title">{{ title }}</h3>
+      <button type="button" class="close-btn" aria-label="Cerrar" (click)="cancel()">×</button>
+    </div>
+    <p>{{ message }}</p>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ cancelText }}</button>
+      <button type="button" class="btn btn-danger" (click)="confirm()">{{ confirmText }}</button>
+    </div>
+  </div>
+</div>
