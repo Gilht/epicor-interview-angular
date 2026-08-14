@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { DateFormatService } from './core/services/date-format.service';
 import { DateFormat } from './core/interfaces/date-format.interface';
@@ -13,9 +13,8 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
 })
 export class AppComponent {
   title = 'interview';
-  today: string;
+  formatDate = inject(DateFormat);
 
-  constructor(private dateFormatService: DateFormatService) {
-    this.today = this.dateFormatService.today();
-  }
+  today = this.formatDate.today();
+
 }

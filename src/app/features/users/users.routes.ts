@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { editGuard } from '../../core/guards/edit.guard';
 
 export const usersRoutes: Route[] = [
   {
@@ -15,6 +16,7 @@ export const usersRoutes: Route[] = [
   },
   {
     path: 'edit/:id',
+    canActivate: [editGuard],
     loadComponent: () =>
       import('./components/users-form/users-form.component').then(
         (m) => m.UsersFormComponent,

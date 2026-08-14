@@ -7,14 +7,20 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { rolesReducer } from './features/roles/store/roles.reducer';
 import { RolesEffects } from './features/roles/store/roles.effects';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { erpHeaderInterceptor } from './core/interceptors/erpHeader.interceptor';
+import { DateFormat } from './core/interfaces/date-format.interface';
+import { UsDateFormatService } from './core/services/us-date-format.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore({ roles: rolesReducer }),
     provideEffects([RolesEffects]),
-    provideHttpClient(),
+    { provide: DateFormat, useClass: UsDateFormatService },
+    provideHttpClient(
+      withInterceptors([erpHeaderInterceptor])
+    ),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),    
   ]
 };
