@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/users.model';
 import { SharedListComponent } from '../../../../shared/components/shared-list/shared-list.component';
@@ -9,15 +9,10 @@ import { SharedListComponent } from '../../../../shared/components/shared-list/s
   imports: [CommonModule, SharedListComponent],
   templateUrl: './users-list.component.html',
 })
-export class UsersListComponent implements OnInit {
-  loading = signal(true);
+export class UsersListComponent {
 
   @Input() users: Partial<User>[] = [];
 
-  @Output() edit = new EventEmitter<User>();
-  @Output() delete = new EventEmitter<string>();
-
-  ngOnInit(): void {
-
-  }
+  @Output() edit = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<number>();
 }

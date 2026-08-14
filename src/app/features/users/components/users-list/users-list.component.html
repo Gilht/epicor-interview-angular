@@ -16,7 +16,7 @@
           <td>{{ user.role }}</td>
           <td>
             <div class="actions">
-              <button (click)="edit.emit(user)" class="btn btn-primary">Edit</button>
+              <button (click)="edit.emit(user.id)" class="btn btn-primary">Edit</button>
               <button (click)="delete.emit(user.id)" class="btn btn-danger">Delete</button>
             </div>
           </td>

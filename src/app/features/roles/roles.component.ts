@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -7,11 +7,12 @@ import { RolesListComponent } from './components/roles-list/roles-list.component
 import * as RolesActions from './store/roles.actions';
 import { selectAllRoles, selectRolesLoading } from './store/roles.selectors';
 import { Router } from '@angular/router';
+import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, RolesListComponent],
+  imports: [CommonModule, RolesListComponent, DialogComponent],
   template: `
     <div class="roles-page">
       <h2>Roles Panel</h2>
@@ -23,8 +24,19 @@ import { Router } from '@angular/router';
       <app-roles-list
         [roles]="(roles$ | async) ?? []"
         (edit)="onEdit($event)"
-        (delete)="onDelete($event)"
+        (delete)="openDeleteDialog($event)"
       ></app-roles-list>
+
+      @if (showDeleteDialog()) {
+        <app-dialog
+          [title]="'Delete Role'"
+          [message]="'Are you sure you want to delete this role?'"
+          [confirmText]="'Delete'"
+          [cancelText]="'Cancel'"
+          (confirmed)="confirmDelete()"
+          (cancelled)="closeDeleteDialog()"
+        ></app-dialog>
+      }
     </div>
   `,
   styles: `
@@ -37,6 +49,8 @@ import { Router } from '@angular/router';
 })
 export class RolesComponent implements OnInit {
   roles$: Observable<Role[]>;
+  readonly showDeleteDialog = signal(false);
+  private roleToDeleteId: string | null = null;
 
   constructor(private store: Store, private router: Router) {
     this.roles$ = this.store.select(selectAllRoles);
@@ -54,7 +68,20 @@ export class RolesComponent implements OnInit {
     this.router.navigate(['/roles/edit', role.id]);
   }
 
-  onDelete(id: string): void {
-    this.store.dispatch(RolesActions.deleteRole({ id }));
+  openDeleteDialog(id: string): void {
+    this.roleToDeleteId = id;
+    this.showDeleteDialog.set(true);
+  }
+
+  confirmDelete(): void {
+    if (this.roleToDeleteId) {
+      this.store.dispatch(RolesActions.deleteRole({ id: this.roleToDeleteId }));
+      this.closeDeleteDialog();
+    }
+  }
+
+  closeDeleteDialog(): void {
+    this.showDeleteDialog.set(false);
+    this.roleToDeleteId = null;
   }
 }
