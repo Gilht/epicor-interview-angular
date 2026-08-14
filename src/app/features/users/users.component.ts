@@ -48,9 +48,21 @@ export class UsersComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.userToDeleteId !== null) {
-      this.users.update((currentUsers) => currentUsers.filter((user) => user.id !== this.userToDeleteId));
+      this._apiService.delete(`${environment.API_URL}/${this.userToDeleteId}`).subscribe({
+        next: () => {
+          this.users.update((currentUsers) => 
+            currentUsers.filter((user) => user.id !== this.userToDeleteId)
+          );
+          alert('user deleted successfully');
+          this.closeDeleteDialog();
+        },
+        error: (err) => {
+          alert('error deleting user');
+          console.error('Error:', err);
+          this.closeDeleteDialog();
+        }
+      });
     }
-    this.closeDeleteDialog();
   }
 
   closeDeleteDialog(): void {
